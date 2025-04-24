@@ -35,3 +35,13 @@
   border-radius: 10px;
   cursor: pointer;
 }
+
+.toggle-pins {
+  position: absolute;
+  top: 85px;
+  z-index: 1;
+  left: 12px;
+  padding: 4px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+}
