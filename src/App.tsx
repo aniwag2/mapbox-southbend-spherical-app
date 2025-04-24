@@ -94,6 +94,9 @@ function App() {
       <button className='reset-button' onClick={handleButtonClick}>
         Reset
       </button>
+      <button className='toggle-pins' onClick={}>
+        Add Pins
+      </button>
       <div id='map-container' ref={mapContainerRef} />
     </>
   )
