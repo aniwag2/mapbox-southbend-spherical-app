@@ -55,7 +55,7 @@ function App() {
     const map = mapRef.current;
 
     // Define handler
-    const handleMapClick = (e: mapboxgl.MapMouseEvent & mapboxgl.EventData) => {
+    const handleMapClick = (e: mapboxgl.MapMouseEvent) => {
       const lng = e.lngLat.lng;
       const lat = e.lngLat.lat;
       const description = window.prompt('Enter a description for this place:');
