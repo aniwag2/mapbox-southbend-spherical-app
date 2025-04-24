@@ -15,6 +15,7 @@ function App() {
   const markerRefs = useRef<mapboxgl.Marker[]>([]);
 
   const [markers, setMarkers] = useState<MarkerData[]>([]);
+  const [canAddPins, setCanAddPins] = useState(false);  // <-- NEW
 
   useEffect(() => {
     const stored = localStorage.getItem('my_map_markers');
@@ -24,6 +25,7 @@ function App() {
   const [center, setCenter] = useState<[number, number]>(INITIAL_CENTER)
   const [zoom, setZoom] = useState(INITIAL_ZOOM)
 
+  // Map initialization (only once)
   useEffect(() => {
     mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN
     if (!mapContainerRef.current) return
@@ -42,8 +44,18 @@ function App() {
       setZoom(mapZoom)
     })
 
-    // Add click handler
-    mapRef.current.on('click', (e) => {
+    return () => {
+      mapRef.current?.remove()
+    }
+  }, []);
+
+  // Add or remove click handler based on canAddPins
+  useEffect(() => {
+    if (!mapRef.current) return;
+    const map = mapRef.current;
+
+    // Define handler
+    const handleMapClick = (e: mapboxgl.MapMouseEvent) => {
       const lng = e.lngLat.lng;
       const lat = e.lngLat.lat;
       const description = window.prompt('Enter a description for this place:');
@@ -55,13 +67,21 @@ function App() {
           return updated;
         });
       }
-    });
+    };
 
-    return () => {
-      mapRef.current?.remove()
+    if (canAddPins) {
+      map.on('click', handleMapClick);
+    } else {
+      map.off('click', handleMapClick);
     }
-  }, []);
 
+    // Clean up handler when toggling or on unmount
+    return () => {
+      map.off('click', handleMapClick);
+    };
+  }, [canAddPins]);
+
+  // Render markers on state change
   useEffect(() => {
     if (!mapRef.current) return;
 
@@ -93,6 +113,9 @@ function App() {
       </div>
       <button className='reset-button' onClick={handleButtonClick}>
         Reset
+      </button>
+      <button className='toggle-pins' onClick={() => setCanAddPins(v => !v)}>
+        {canAddPins ? 'Stop Adding Pins' : 'Add Pins'}
       </button>
       <div id='map-container' ref={mapContainerRef} />
     </>
