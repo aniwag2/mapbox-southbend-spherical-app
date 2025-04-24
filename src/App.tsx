@@ -1,6 +1,7 @@
 import { useRef, useEffect, useState } from 'react'
 import mapboxgl from 'mapbox-gl'
 
+
 import 'mapbox-gl/dist/mapbox-gl.css';
 import './App.css'
 
@@ -18,7 +19,8 @@ function App() {
   const [zoom, setZoom] = useState(INITIAL_ZOOM)
 
   useEffect(() => {
-    mapboxgl.accessToken = 'pk.eyJ1IjoiYXdhZ2hyYXkiLCJhIjoiY205cng5Ymw3MXdvMTJscHhqNGh3dzNkNyJ9.hlafS2FkAIuUPKiKQ2qlKQ'
+    console.log(import.meta.env.VITE_MAPBOX_TOKEN)
+    mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN
     mapRef.current = new mapboxgl.Map({
       container: mapContainerRef.current,
       center: center,
