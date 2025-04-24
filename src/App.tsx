@@ -103,6 +103,8 @@ function App() {
     mapRef.current?.flyTo({
       center: INITIAL_CENTER,
       zoom: INITIAL_ZOOM,
+      bearing: 0,
+      pitch: 0,
     })
   }
 
