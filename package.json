@@ -10,9 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@types/geojson": "^7946.0.16",
     "classnames": "^2.5.1",
     "dotenv": "^16.5.0",
-    "mapbox-gl": "^3.11.0",
+    "mapbox-gl": "^3.11.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "tailwindcss": "^4.1.4",
