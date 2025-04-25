@@ -130,7 +130,7 @@ function App() {
         Longitude: {center[0].toFixed(4)} | Latitude: {center[1].toFixed(4)} | Zoom: {zoom.toFixed(2)}
       </div>
       <button className='reset-button' onClick={handleButtonClick}>
-        Reset
+        Reset View
       </button>
       <button
         className='toggle-pins'
