@@ -15,8 +15,10 @@ function App() {
   const markerRefs = useRef<mapboxgl.Marker[]>([]);
 
   const [markers, setMarkers] = useState<MarkerData[]>([]);
-  const [canAddPins, setCanAddPins] = useState(false);  // <-- NEW
+  const [canAddPins, setCanAddPins] = useState(false);
+  const [canDeletePins, setCanDeletePins] = useState(false);
 
+  // Load from localStorage on mount
   useEffect(() => {
     const stored = localStorage.getItem('my_map_markers');
     if (stored) setMarkers(JSON.parse(stored));
@@ -25,7 +27,7 @@ function App() {
   const [center, setCenter] = useState<[number, number]>(INITIAL_CENTER)
   const [zoom, setZoom] = useState(INITIAL_ZOOM)
 
-  // Map initialization (only once)
+  // Initialize map only once
   useEffect(() => {
     mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN
     if (!mapContainerRef.current) return
@@ -49,12 +51,11 @@ function App() {
     }
   }, []);
 
-  // Add or remove click handler based on canAddPins
+  // Handle add pins mode: map click handler
   useEffect(() => {
     if (!mapRef.current) return;
     const map = mapRef.current;
 
-    // Define handler
     const handleMapClick = (e: mapboxgl.MapMouseEvent) => {
       const lng = e.lngLat.lng;
       const lat = e.lngLat.lat;
@@ -81,7 +82,7 @@ function App() {
     };
   }, [canAddPins]);
 
-  // Render markers on state change
+  // Render markers and handle delete mode
   useEffect(() => {
     if (!mapRef.current) return;
 
@@ -89,16 +90,31 @@ function App() {
     markerRefs.current.forEach(marker => marker.remove());
     markerRefs.current = [];
 
-    // Add current markers
-    markers.forEach(marker => {
+    markers.forEach((marker, idx) => {
       const mapMarker = new mapboxgl.Marker()
         .setLngLat([marker.lng, marker.lat])
         .setPopup(new mapboxgl.Popup().setText(marker.description))
         .addTo(mapRef.current!);
+
+      if (canDeletePins) {
+        mapMarker.getElement().style.cursor = 'pointer';
+        mapMarker.getElement().onclick = () => {
+          setMarkers(prev => {
+            const updated = prev.filter((_, i) => i !== idx);
+            localStorage.setItem('my_map_markers', JSON.stringify(updated));
+            return updated;
+          });
+        };
+      } else {
+        mapMarker.getElement().onclick = null;
+        mapMarker.getElement().style.cursor = '';
+      }
+
       markerRefs.current.push(mapMarker);
     });
-  }, [markers]);
+  }, [markers, canDeletePins]);
 
+  // Reset map view
   const handleButtonClick = () => {
     mapRef.current?.flyTo({
       center: INITIAL_CENTER,
@@ -116,10 +132,29 @@ function App() {
       <button className='reset-button' onClick={handleButtonClick}>
         Reset
       </button>
-      <button className='toggle-pins' onClick={() => setCanAddPins(v => !v)}>
+      <button
+        className='toggle-pins'
+        onClick={() => setCanAddPins(v => !v)}
+        disabled={canDeletePins}
+        style={{
+          background: canAddPins ? '#1976d2' : undefined,
+          color: canAddPins ? 'white' : undefined,
+        }}
+      >
         {canAddPins ? 'Stop Adding Pins' : 'Add Pins'}
       </button>
-      <div id='map-container' ref={mapContainerRef} />
+      <button
+        className='toggle-delete-pins'
+        onClick={() => setCanDeletePins(v => !v)}
+        disabled={canAddPins}
+        style={{
+          background: canDeletePins ? 'tomato' : undefined,
+          color: canDeletePins ? 'white' : undefined,
+        }}
+      >
+        {canDeletePins ? 'Stop Deleting Pins' : 'Delete Pins'}
+      </button>
+      <div id='map-container' ref={mapContainerRef} style={{ width: '100vw', height: '100vh' }} />
     </>
   )
 }
