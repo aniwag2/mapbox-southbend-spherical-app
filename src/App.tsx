@@ -18,7 +18,6 @@ function App() {
   const [canAddPins, setCanAddPins] = useState(false);
   const [canDeletePins, setCanDeletePins] = useState(false);
 
-  // Load from localStorage on mount
   useEffect(() => {
     const stored = localStorage.getItem('my_map_markers');
     if (stored) setMarkers(JSON.parse(stored));
@@ -27,7 +26,6 @@ function App() {
   const [center, setCenter] = useState<[number, number]>(INITIAL_CENTER)
   const [zoom, setZoom] = useState(INITIAL_ZOOM)
 
-  // Initialize map only once
   useEffect(() => {
     mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN
     if (!mapContainerRef.current) return
@@ -51,7 +49,6 @@ function App() {
     }
   }, []);
 
-  // Handle add pins mode: map click handler
   useEffect(() => {
     if (!mapRef.current) return;
     const map = mapRef.current;
@@ -76,17 +73,14 @@ function App() {
       map.off('click', handleMapClick);
     }
 
-    // Clean up handler when toggling or on unmount
     return () => {
       map.off('click', handleMapClick);
     };
   }, [canAddPins]);
 
-  // Render markers and handle delete mode
   useEffect(() => {
     if (!mapRef.current) return;
 
-    // Remove previous markers
     markerRefs.current.forEach(marker => marker.remove());
     markerRefs.current = [];
 
@@ -114,7 +108,6 @@ function App() {
     });
   }, [markers, canDeletePins]);
 
-  // Reset map view
   const handleButtonClick = () => {
     mapRef.current?.flyTo({
       center: INITIAL_CENTER,
@@ -129,9 +122,11 @@ function App() {
       <div className="sidebar">
         Longitude: {center[0].toFixed(4)} | Latitude: {center[1].toFixed(4)} | Zoom: {zoom.toFixed(2)}
       </div>
+
       <button className='reset-button' onClick={handleButtonClick}>
         Reset View
       </button>
+
       <button
         className='toggle-pins'
         onClick={() => setCanAddPins(v => !v)}
@@ -143,6 +138,7 @@ function App() {
       >
         {canAddPins ? 'Stop Adding Pins' : 'Add Pins'}
       </button>
+
       <button
         className='toggle-delete-pins'
         onClick={() => setCanDeletePins(v => !v)}
@@ -154,6 +150,7 @@ function App() {
       >
         {canDeletePins ? 'Stop Deleting Pins' : 'Delete Pins'}
       </button>
+      
       <div id='map-container' ref={mapContainerRef} style={{ width: '100vw', height: '100vh' }} />
     </>
   )
