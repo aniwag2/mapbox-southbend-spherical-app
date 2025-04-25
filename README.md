@@ -1,14 +1,13 @@
 # South Bend Visualization In Mapbox
 This project is my submission for the Spherical Software Engineering Internship Challenge. The purpose of this project is to display a Mapbox map centered somewhere meaningful to me and allow the user to place pins with descriptions on the map. I chose my hometown, South Bend, Indiana.
 
+**Link to project:** https://mapbox-southbend-spherical-app.vercel.app/
+
 ![image](https://github.com/user-attachments/assets/4adbe48d-fdb6-4e12-a996-913e2784cb6e)
 
 ![image](https://github.com/user-attachments/assets/88a1cc2f-bf6e-4f0d-9481-aacc2a4fdc38)
 
 ![image](https://github.com/user-attachments/assets/b2a5170d-90a4-49bd-ace6-71618676457c)
-
-
-**Link to project:** https://mapbox-southbend-spherical-app.vercel.app/
 
 ## How It's Made:
 
