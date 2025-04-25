@@ -91,9 +91,12 @@ This project is my submission for the Spherical Software Engineering Internship 
   * Cleanup:
     - All event handlers and markers are cleaned up (removed) as appropriate to avoid memory leaks or stale handlers.
 
-## Lessons Learned:
+## My Process and Lessons Learned:
 
-LESSONS LEARNED
+Starting this project, I had no understanding of Mapbox or its capabilities. I only had a rough understanding of the API and how it works from a small bit of research I had done in the interview process with Spherical. Initially, I was having trouble choosing a good framework. Looking at the Mapbox documentation, it seemed like React + Vite was the way to go and I followed a basic tutorial to get started with Mapbox. While I have worked with React previously, I felt that this project gave me an opportunity to work with typescript and React in a completely different way. I had initially struggled with the pin placing implementation, because the documentation assumes the developer is using javascript and there are small changes I had to made to adapt to typescript. Overall, Mapbox was generally straightforward to work with, and it allowed me to learn how to integrate my previous experience with web development with the features that Mapbox provided.
 
+Mid-development, I showed my product to a few friends. This definitely helped me figure out small things with the user interface that didn't quite speak to those not familiar with the purpose of the project. For example, a small but important change was changing the "Reset" button to "Reset View" to ensure clarity that the reset was for the map view and not to clear all pins that were placed. I also was trying to think of myself as a user as much as I could, and that's why I decided to use the "Add Pins" and "Delete Pins" buttons. Originally, it would always allow the user to place pins when they clicked the map. I, as a user, was struggling to maneuver the map without prompting the pin to place, so I decided that a button that designates when pins can be placed would be the best fix to the issue.
+
+Mapbox is a very powerful tool, and as I was finishing up this project, I was doing research into the other capabilities of Mapbox. One that really stuck out to me was the heatmaps option, and while out of the scope of this project, I feel that implementing a heatmap for emissions, natural disasters, and other major considerations in a city would be a great addition to this project. Otherwise, I am glad I got to work with Mapbox, and I learned a lot working on this project.
 
 
