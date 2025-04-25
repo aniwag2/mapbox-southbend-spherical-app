@@ -121,8 +121,6 @@ function App() {
       zoom: INITIAL_ZOOM,
       bearing: 0,
       pitch: 0,
-      speed: 1.2,
-      curve: 1.4
     })
   }
 
